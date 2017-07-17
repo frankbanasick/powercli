@@ -219,7 +219,9 @@ $vMotion_02_PG = $null
 Write-Host ""
 Write-Host "          Script processing completed.   The host "$Host_Server "has initiated reboot..." -foregroundcolor yellow -backgroundcolor red
 Write-Host ""
+If ((Get-VMhost $Host_Server).state -ne 'maintenance') { 
 Set-VMHost -VMhost $Host_Server -State “Maintenance” -confirm:$false
+}
 Restart-VMHost -VMhost $Host_Server
 Disconnect-VIServer $Host_Server -confirm:$false
 ### Script End
