@@ -46,6 +46,13 @@ Write-Host "          Attempting to Connect to Host --> "$Host_Server -foregroun
 Write-Host ""
 Connect-VIServer -Server $Host_Server 
 
+If ((Get-VMhost $Host_Server).state -ne 'Maintenance') { 
+Write-Host ""
+Write-Host $Host_Server "is not in expected host state (Maintenance).  Attempting to set maintenance mode..." 
+Set-VMHost -VMhost $Host_Server -State “Maintenance” -confirm:$false
+Write-Host ""
+}
+
 ### Management Network - Configure
 Write-Host ""
 Write-host "          Configuring Management Network..." -foregroundcolor green -backgroundcolor black
